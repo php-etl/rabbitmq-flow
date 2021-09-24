@@ -10,7 +10,8 @@ final class RabbitState implements StateInterface
 {
     private Client $connection;
     private Channel $channel;
-    private array $metrics;
+    private \DateTimeInterface $date;
+    private string $stepUuid;
 
     public function __construct(
         private string $host,
@@ -21,6 +22,9 @@ final class RabbitState implements StateInterface
         private ?string $vhost = null,
         private ?string $exchange = null,
     ) {
+        $this->date = new \DateTime();
+        $this->stepUuid = $this->generateRandomUuid();
+
         $this->connection = new Client([
             'host' => $this->host,
             'vhost'  => $this->vhost,
@@ -36,19 +40,25 @@ final class RabbitState implements StateInterface
 
     public function initialize(int $start = 0): void
     {
-        $this->metrics = [
-            'accept' => 0,
-            'reject' => 0,
-        ];
     }
 
     public function accept(int $step = 1): void
     {
-        $this->metrics['accept'] += $step;
-
         $this->channel->publish(
             \json_encode([
-                'Line accepted : ' => $this->metrics['accept']
+                'id' => $this->generateRandomUuid(),
+                'date' => ['date' => $this->date->format('c'), 'tz' => $this->date->getTimezone()->getName()],
+                'stepsUpdates' => [
+                    [
+                        'code' => $this->stepUuid,
+                        'measurements' => [
+                            'increment' => [
+                                'code' => $this->generateRandomUuid(),
+                                'increment' => $step
+                            ]
+                        ]
+                    ]
+                ]
             ]),
             [
                 'content-type' => 'application/json',
@@ -60,11 +70,21 @@ final class RabbitState implements StateInterface
 
     public function reject(int $step = 1): void
     {
-        $this->metrics['reject'] += $step;
-
         $this->channel->publish(
             \json_encode([
-                'Line rejected : ' => $this->metrics['reject']
+                'id' => $this->generateRandomUuid(),
+                'date' => ['date' => $this->date->format('c'), 'tz' => $this->date->getTimezone()->getName()],
+                'stepsUpdates' => [
+                    [
+                        'code' => $this->stepUuid,
+                        'measurements' => [
+                            'decrement' => [
+                                'code' => $this->generateRandomUuid(),
+                                'decrement' => $step
+                            ]
+                        ]
+                    ]
+                ]
             ]),
             [
                 'content-type' => 'application/json',
@@ -72,6 +92,16 @@ final class RabbitState implements StateInterface
             $this->exchange,
             $this->topic
         );
+    }
+
+    private function generateRandomUuid(): string
+    {
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 
     public function __destruct()

@@ -21,7 +21,8 @@
   "autoload-dev": {
     "psr-4": {
       "unit\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/unit/",
-      "functional\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/functional/"
+      "functional\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/functional/",
+      "integration\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/integration/"
     }
   },
   "config": {
