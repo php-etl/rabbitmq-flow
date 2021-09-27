@@ -6,40 +6,70 @@ use Bunny\Channel;
 use Bunny\Client;
 use Kiboko\Contract\Pipeline\StateInterface;
 
-final class RabbitState implements StateInterface
+final class State implements StateInterface
 {
-    private Client $connection;
     private Channel $channel;
-    private \DateTimeInterface $date;
-    private string $stepUuid;
 
     public function __construct(
-        private string $host,
-        private string $user,
-        private string $password,
+        Client $connection,
+        private string $stepUuid,
         private string $topic,
-        private ?int $port = null,
-        private ?string $vhost = null,
         private ?string $exchange = null,
     ) {
-        $this->date = new \DateTime();
-        $this->stepUuid = $this->generateRandomUuid();
+        $this->channel = $connection->channel();
+    }
 
-        $this->connection = new Client([
-            'host' => $this->host,
-            'vhost'  => $this->vhost,
-            'port' => $this->port,
-            'user' => $this->user,
-            'password' => $this->password,
+    public static function withoutAuthentication(
+        string $stepUuid,
+        string $host,
+        string $vhost,
+        string $topic,
+        ?string $exchange = null,
+        ?int $port = null,
+    ): self {
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost'  => $vhost,
+            'user' => 'guest',
+            'password' => 'guest',
         ]);
+        $connection->connect();
 
-        $this->connection->connect();
-        $this->channel = $this->connection->channel();
-        $this->channel->queueDeclare($this->topic);
+        return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
+    }
+
+    public static function withAuthentication(
+        string $stepUuid,
+        string $host,
+        string $vhost,
+        string $topic,
+        ?string $user,
+        ?string $password,
+        ?string $exchange = null,
+        ?int $port = null,
+    ): self {
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost'  => $vhost,
+            'user' => $user,
+            'password' => $password,
+        ]);
+        $connection->connect();
+
+        return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
     }
 
     public function initialize(int $start = 0): void
     {
+        $this->channel->queueDeclare(
+            queue: $this->topic,
+            passive: false,
+            durable: true,
+            exclusive: false,
+            autoDelete: true,
+        );
     }
 
     public function accept(int $step = 1): void
