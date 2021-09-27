@@ -33,8 +33,8 @@
   "require": {
     "php": "^8.0",
     "psr/log": "^1.1@dev",
-    "php-etl/pipeline-contracts": "^0.2.0",
-    "php-etl/bucket": "^0.2.0",
+    "php-etl/pipeline-contracts": "^0.3.0",
+    "php-etl/bucket": "dev-feature/update-bucket-contracts as 0.2.0",
     "bunny/bunny": "@dev"
   },
   "require-dev": {
@@ -44,7 +44,7 @@
     "mybuilder/phpunit-accelerator": "*",
     "infection/infection": "^0.20",
     "adlawson/vfs": "dev-develop",
-    "php-etl/phpunit-extension": "*"
+    "php-etl/phpunit-extension": "dev-feature/update-pipeline-0.4"
   },
   "extra": {
     "branch-alias": {

@@ -9,18 +9,21 @@ use Kiboko\Contract\Pipeline\StateInterface;
 final class State implements StateInterface
 {
     private Channel $channel;
+    private array $metrics;
 
     public function __construct(
-        Client $connection,
-        private string $stepUuid,
+        private Client $connection,
+        private string $stepCode,
+        private string $stepLabel,
         private string $topic,
         private ?string $exchange = null,
     ) {
-        $this->channel = $connection->channel();
+        $this->channel = $this->connection->channel();
     }
 
     public static function withoutAuthentication(
-        string $stepUuid,
+        string $stepCode,
+        string $stepLabel,
         string $host,
         string $vhost,
         string $topic,
@@ -36,11 +39,12 @@ final class State implements StateInterface
         ]);
         $connection->connect();
 
-        return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
+        return new self($connection, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
     }
 
     public static function withAuthentication(
-        string $stepUuid,
+        string $stepCode,
+        string $stepLabel,
         string $host,
         string $vhost,
         string $topic,
@@ -58,11 +62,16 @@ final class State implements StateInterface
         ]);
         $connection->connect();
 
-        return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
+        return new self($connection, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
     }
 
     public function initialize(int $start = 0): void
     {
+        $this->metrics = [
+            'accept' => 0,
+            'reject' => 0,
+        ];
+
         $this->channel->queueDeclare(
             queue: $this->topic,
             passive: false,
@@ -74,16 +83,44 @@ final class State implements StateInterface
 
     public function accept(int $step = 1): void
     {
+        $this->metrics['accept'] += $step;
+
+        $this->sendMessage('accept');
+    }
+
+    public function reject(int $step = 1): void
+    {
+        $this->metrics['reject'] += $step;
+
+        $this->sendMessage('reject');
+    }
+
+    public function error(int $step = 1): void
+    {
+        // Not implemented yet
+    }
+
+    public function teardown(): void
+    {
+        $this->channel->close();
+        $this->connection->stop();
+    }
+
+    private function sendMessage(string $metricCode): void
+    {
+        $date = new \DateTime();
+
         $this->channel->publish(
             \json_encode([
-                'id' => $this->generateRandomUuid(),
-                'date' => ['date' => $this->date->format('c'), 'tz' => $this->date->getTimezone()->getName()],
+                'id' => '',
+                'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
                 'stepsUpdates' => [
                     [
-                        'code' => $this->stepUuid,
-                        'measurements' => [
-                            'increment' => [
-                                'code' => $this->generateRandomUuid(),
+                        'code' => $this->stepCode,
+                        'label' => $this->stepLabel ?: $this->stepCode,
+                        'metrics' => [
+                            [
+                                'code' => $metricCode,
                                 'increment' => $step
                             ]
                         ]
@@ -96,47 +133,5 @@ final class State implements StateInterface
             $this->exchange,
             $this->topic
         );
-    }
-
-    public function reject(int $step = 1): void
-    {
-        $this->channel->publish(
-            \json_encode([
-                'id' => $this->generateRandomUuid(),
-                'date' => ['date' => $this->date->format('c'), 'tz' => $this->date->getTimezone()->getName()],
-                'stepsUpdates' => [
-                    [
-                        'code' => $this->stepUuid,
-                        'measurements' => [
-                            'decrement' => [
-                                'code' => $this->generateRandomUuid(),
-                                'decrement' => $step
-                            ]
-                        ]
-                    ]
-                ]
-            ]),
-            [
-                'content-type' => 'application/json',
-            ],
-            $this->exchange,
-            $this->topic
-        );
-    }
-
-    private function generateRandomUuid(): string
-    {
-        $data = $data ?? random_bytes(16);
-        assert(strlen($data) == 16);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-
-        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
-    }
-
-    public function __destruct()
-    {
-        $this->channel->close();
-        $this->connection->stop();
     }
 }

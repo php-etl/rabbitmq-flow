@@ -11,12 +11,12 @@ final class Rejection implements RejectionInterface
     private Channel $channel;
 
     public function __construct(
-        Client $connection,
+        private Client $connection,
         private string $stepUuid,
         private string $topic,
         private ?string $exchange = null,
     ) {
-        $this->channel = $connection->channel();
+        $this->channel = $this->connection->channel();
         $this->channel->queueDeclare(
             queue: $this->topic,
             passive: false,
@@ -82,5 +82,22 @@ final class Rejection implements RejectionInterface
             $this->topic,
             $this->exchange,
         );
+    }
+
+    public function initialize(): void
+    {
+        $this->channel->queueDeclare(
+            queue: $this->topic,
+            passive: false,
+            durable: true,
+            exclusive: false,
+            autoDelete: true,
+        );
+    }
+
+    public function teardown(): void
+    {
+        $this->channel->close();
+        $this->connection->stop();
     }
 }
