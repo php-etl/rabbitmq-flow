@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a716b37381fc90d285c6deeb28ca81d",
+    "content-hash": "29694ed002796516258a85c9178bc197",
     "packages": [
         {
             "name": "bunny/bunny",
@@ -68,26 +68,31 @@
         },
         {
             "name": "php-etl/bucket",
-            "version": "dev-feature/update-bucket-contracts",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket.git",
-                "reference": "e31a5c63fe737fdd81e2977165b5834c8be11504"
+                "reference": "71da9b48cc227575b66266491fce2b13112f4144"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket/zipball/e31a5c63fe737fdd81e2977165b5834c8be11504",
-                "reference": "e31a5c63fe737fdd81e2977165b5834c8be11504",
+                "url": "https://api.github.com/repos/php-etl/bucket/zipball/71da9b48cc227575b66266491fce2b13112f4144",
+                "reference": "71da9b48cc227575b66266491fce2b13112f4144",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
-                "php-etl/bucket-contracts": "^0.1.0"
+                "php-etl/bucket-contracts": "^0.1.0@dev"
             },
             "require-dev": {
                 "friends-of-phpspec/phpspec-code-coverage": "6.x-dev",
-                "phpspec/phpspec": "^7.0"
+                "johnkary/phpunit-speedtrap": "*",
+                "mybuilder/phpunit-accelerator": "*",
+                "phpspec/phpspec": "^7.0",
+                "phpunit/php-invoker": "*",
+                "phpunit/phpunit": "^9.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -116,22 +121,22 @@
             "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
             "support": {
                 "issues": "https://github.com/php-etl/bucket/issues",
-                "source": "https://github.com/php-etl/bucket/tree/feature/update-bucket-contracts"
+                "source": "https://github.com/php-etl/bucket/tree/master"
             },
-            "time": "2021-09-27T14:13:02+00:00"
+            "time": "2021-09-27T19:07:27+00:00"
         },
         {
             "name": "php-etl/bucket-contracts",
-            "version": "dev-master",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket-contracts.git",
-                "reference": "e538bcba3db35c2d0adb85ad8449444e0481f02e"
+                "reference": "b5d682329b7f8ff66e0987f75fad190607c10ddf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/e538bcba3db35c2d0adb85ad8449444e0481f02e",
-                "reference": "e538bcba3db35c2d0adb85ad8449444e0481f02e",
+                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/b5d682329b7f8ff66e0987f75fad190607c10ddf",
+                "reference": "b5d682329b7f8ff66e0987f75fad190607c10ddf",
                 "shasum": ""
             },
             "require": {
@@ -140,7 +145,6 @@
             "require-dev": {
                 "phpstan/phpstan": "0.12.x-dev"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -169,22 +173,22 @@
             "description": "This library describes contracts for the data-interchange buckets.",
             "support": {
                 "issues": "https://github.com/php-etl/bucket-contracts/issues",
-                "source": "https://github.com/php-etl/bucket-contracts/tree/master"
+                "source": "https://github.com/php-etl/bucket-contracts/tree/v0.1.0"
             },
-            "time": "2021-06-28T21:40:35+00:00"
+            "time": "2021-09-25T16:53:47+00:00"
         },
         {
             "name": "php-etl/pipeline-contracts",
-            "version": "v0.3.0",
+            "version": "v0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/pipeline-contracts.git",
-                "reference": "363e8eb5a055cdc2119446397aa8ffffd784268f"
+                "reference": "c89002bcc303194bbc9cf3efbff6da62c519ea70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/363e8eb5a055cdc2119446397aa8ffffd784268f",
-                "reference": "363e8eb5a055cdc2119446397aa8ffffd784268f",
+                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/c89002bcc303194bbc9cf3efbff6da62c519ea70",
+                "reference": "c89002bcc303194bbc9cf3efbff6da62c519ea70",
                 "shasum": ""
             },
             "require": {
@@ -219,9 +223,9 @@
             "description": "This library describes contracts for the Extract-Transform-Load pattern.",
             "support": {
                 "issues": "https://github.com/php-etl/pipeline-contracts/issues",
-                "source": "https://github.com/php-etl/pipeline-contracts/tree/v0.3.0"
+                "source": "https://github.com/php-etl/pipeline-contracts/tree/v0.3.3"
             },
-            "time": "2021-09-25T16:54:03+00:00"
+            "time": "2021-09-28T06:57:28+00:00"
         },
         {
             "name": "psr/log",
@@ -1100,16 +1104,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.12.0",
+            "version": "v4.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "6608f01670c3cc5079e18c1dab1104e002579143"
+                "reference": "50953a2691a922aa1769461637869a0a2faa3f53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/6608f01670c3cc5079e18c1dab1104e002579143",
-                "reference": "6608f01670c3cc5079e18c1dab1104e002579143",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50953a2691a922aa1769461637869a0a2faa3f53",
+                "reference": "50953a2691a922aa1769461637869a0a2faa3f53",
                 "shasum": ""
             },
             "require": {
@@ -1150,9 +1154,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.12.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.0"
             },
-            "time": "2021-07-21T10:44:31+00:00"
+            "time": "2021-09-20T12:20:58+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -1401,31 +1405,32 @@
         },
         {
             "name": "php-etl/phpunit-extension",
-            "version": "dev-feature/update-pipeline-0.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/phpunit-extension.git",
-                "reference": "c2a4e096235157c0a47144448f184476c9f6bf06"
+                "reference": "ed2aeffefe9406e50c5900f67e2d88144431a560"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/c2a4e096235157c0a47144448f184476c9f6bf06",
-                "reference": "c2a4e096235157c0a47144448f184476c9f6bf06",
+                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/ed2aeffefe9406e50c5900f67e2d88144431a560",
+                "reference": "ed2aeffefe9406e50c5900f67e2d88144431a560",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^4.10",
                 "php": "^8.0",
-                "php-etl/pipeline": "dev-refactoring/feature-and-state as 0.4.0",
                 "phpunit/phpunit": "^9"
             },
             "require-dev": {
-                "adlawson/vfs": "dev-develop"
+                "adlawson/vfs": "dev-develop",
+                "php-etl/pipeline-contracts": "^0.3.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.3.x-dev"
+                    "dev-master": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -1446,71 +1451,9 @@
             "description": "Extension for testing FastMap and ETL components with PHPUnit testing framework",
             "support": {
                 "issues": "https://github.com/php-etl/phpunit-extension/issues",
-                "source": "https://github.com/php-etl/phpunit-extension/tree/feature/update-pipeline-0.4"
+                "source": "https://github.com/php-etl/phpunit-extension/tree/master"
             },
-            "time": "2021-09-27T12:30:57+00:00"
-        },
-        {
-            "name": "php-etl/pipeline",
-            "version": "dev-refactoring/feature-and-state",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/pipeline.git",
-                "reference": "d3ab321063839033a6dba23033c26cb6b8ea2342"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline/zipball/d3ab321063839033a6dba23033c26cb6b8ea2342",
-                "reference": "d3ab321063839033a6dba23033c26cb6b8ea2342",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0",
-                "php-etl/bucket": "^0.2.0",
-                "php-etl/bucket-contracts": "^0.1.0",
-                "php-etl/pipeline-contracts": "^0.3.0",
-                "psr/log": "^1.1@dev"
-            },
-            "require-dev": {
-                "friends-of-phpspec/phpspec-code-coverage": "*",
-                "fzaninotto/faker": "^1.9@dev",
-                "johnkary/phpunit-speedtrap": "*",
-                "mybuilder/phpunit-accelerator": "*",
-                "phpspec/phpspec": "^7.0",
-                "phpunit/php-invoker": "*",
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.4.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Component\\Pipeline\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kiboko SAS",
-                    "homepage": "http://kiboko.fr"
-                },
-                {
-                    "name": "Grégory Planchat",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
-            "support": {
-                "issues": "https://github.com/php-etl/pipeline/issues",
-                "source": "https://github.com/php-etl/pipeline/tree/refactoring/feature-and-state"
-            },
-            "time": "2021-09-27T10:33:22+00:00"
+            "time": "2021-09-27T18:48:18+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -1623,16 +1566,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0"
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30f38bffc6f24293dadd1823936372dfa9e86e2f",
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f",
                 "shasum": ""
             },
             "require": {
@@ -1640,7 +1583,8 @@
                 "phpdocumentor/reflection-common": "^2.0"
             },
             "require-dev": {
-                "ext-tokenizer": "*"
+                "ext-tokenizer": "*",
+                "psalm/phar": "^4.8"
             },
             "type": "library",
             "extra": {
@@ -1666,9 +1610,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.4.0"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.5.0"
             },
-            "time": "2020-09-17T18:55:26+00:00"
+            "time": "2021-09-17T15:28:14+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -1739,23 +1683,23 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.6",
+            "version": "9.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f6293e1b30a2354e8428e004689671b83871edde"
+                "reference": "d4c798ed8d51506800b441f7a13ecb0f76f12218"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f6293e1b30a2354e8428e004689671b83871edde",
-                "reference": "f6293e1b30a2354e8428e004689671b83871edde",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d4c798ed8d51506800b441f7a13ecb0f76f12218",
+                "reference": "d4c798ed8d51506800b441f7a13ecb0f76f12218",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^4.10.2",
+                "nikic/php-parser": "^4.12.0",
                 "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
@@ -1804,7 +1748,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.6"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.7"
             },
             "funding": [
                 {
@@ -1812,7 +1756,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-28T07:26:59+00:00"
+            "time": "2021-09-17T05:39:03+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2057,16 +2001,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.9",
+            "version": "9.5.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ea8c2dfb1065eb35a79b3681eee6e6fb0a6f273b"
+                "reference": "c814a05837f2edb0d1471d6e3f4ab3501ca3899a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ea8c2dfb1065eb35a79b3681eee6e6fb0a6f273b",
-                "reference": "ea8c2dfb1065eb35a79b3681eee6e6fb0a6f273b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c814a05837f2edb0d1471d6e3f4ab3501ca3899a",
+                "reference": "c814a05837f2edb0d1471d6e3f4ab3501ca3899a",
                 "shasum": ""
             },
             "require": {
@@ -2082,7 +2026,7 @@
                 "phar-io/version": "^3.0.2",
                 "php": ">=7.3",
                 "phpspec/prophecy": "^1.12.1",
-                "phpunit/php-code-coverage": "^9.2.3",
+                "phpunit/php-code-coverage": "^9.2.7",
                 "phpunit/php-file-iterator": "^3.0.5",
                 "phpunit/php-invoker": "^3.1.1",
                 "phpunit/php-text-template": "^2.0.3",
@@ -2144,7 +2088,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.9"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.10"
             },
             "funding": [
                 {
@@ -2156,7 +2100,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-31T06:47:40+00:00"
+            "time": "2021-09-25T07:38:51+00:00"
         },
         {
             "name": "psr/container",
@@ -3124,7 +3068,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
@@ -4598,21 +4541,12 @@
             "time": "2015-12-17T08:42:14+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "php-etl/bucket",
-            "version": "dev-feature/update-bucket-contracts",
-            "alias": "0.2.0",
-            "alias_normalized": "0.2.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "psr/log": 20,
-        "php-etl/bucket": 20,
         "bunny/bunny": 20,
-        "adlawson/vfs": 20,
-        "php-etl/phpunit-extension": 20
+        "adlawson/vfs": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
