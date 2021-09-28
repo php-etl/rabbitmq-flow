@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29694ed002796516258a85c9178bc197",
+    "content-hash": "7ee6a10b10f28170c75b9c7c44ecced2",
     "packages": [
         {
             "name": "bunny/bunny",
@@ -68,21 +68,21 @@
         },
         {
             "name": "php-etl/bucket",
-            "version": "dev-master",
+            "version": "dev-feature/update-bucket-contracts",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket.git",
-                "reference": "71da9b48cc227575b66266491fce2b13112f4144"
+                "reference": "543059d30640f603c6f72923461ff8de70a3e4e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket/zipball/71da9b48cc227575b66266491fce2b13112f4144",
-                "reference": "71da9b48cc227575b66266491fce2b13112f4144",
+                "url": "https://api.github.com/repos/php-etl/bucket/zipball/543059d30640f603c6f72923461ff8de70a3e4e4",
+                "reference": "543059d30640f603c6f72923461ff8de70a3e4e4",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
-                "php-etl/bucket-contracts": "^0.1.0@dev"
+                "php-etl/bucket-contracts": "^0.1.0"
             },
             "require-dev": {
                 "friends-of-phpspec/phpspec-code-coverage": "6.x-dev",
@@ -92,7 +92,6 @@
                 "phpunit/php-invoker": "*",
                 "phpunit/phpunit": "^9.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -121,9 +120,9 @@
             "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
             "support": {
                 "issues": "https://github.com/php-etl/bucket/issues",
-                "source": "https://github.com/php-etl/bucket/tree/master"
+                "source": "https://github.com/php-etl/bucket/tree/feature/update-bucket-contracts"
             },
-            "time": "2021-09-27T19:07:27+00:00"
+            "time": "2021-09-28T07:39:19+00:00"
         },
         {
             "name": "php-etl/bucket-contracts",
@@ -1402,58 +1401,6 @@
                 "source": "https://github.com/phar-io/version/tree/3.1.0"
             },
             "time": "2021-02-23T14:00:09+00:00"
-        },
-        {
-            "name": "php-etl/phpunit-extension",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-etl/phpunit-extension.git",
-                "reference": "ed2aeffefe9406e50c5900f67e2d88144431a560"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/phpunit-extension/zipball/ed2aeffefe9406e50c5900f67e2d88144431a560",
-                "reference": "ed2aeffefe9406e50c5900f67e2d88144431a560",
-                "shasum": ""
-            },
-            "require": {
-                "nikic/php-parser": "^4.10",
-                "php": "^8.0",
-                "phpunit/phpunit": "^9"
-            },
-            "require-dev": {
-                "adlawson/vfs": "dev-develop",
-                "php-etl/pipeline-contracts": "^0.3.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.2.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Kiboko\\Component\\PHPUnitExtension\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Grégory Planchat",
-                    "email": "gregory@kiboko.fr"
-                }
-            ],
-            "description": "Extension for testing FastMap and ETL components with PHPUnit testing framework",
-            "support": {
-                "issues": "https://github.com/php-etl/phpunit-extension/issues",
-                "source": "https://github.com/php-etl/phpunit-extension/tree/master"
-            },
-            "time": "2021-09-27T18:48:18+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4541,11 +4488,17 @@
             "time": "2015-12-17T08:42:14+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "php-etl/bucket",
+            "version": "dev-feature/update-bucket-contracts",
+            "alias": "0.2.0",
+            "alias_normalized": "0.2.0.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "psr/log": 20,
-        "bunny/bunny": 20,
+        "php-etl/bucket": 20,
         "adlawson/vfs": 20
     },
     "prefer-stable": true,

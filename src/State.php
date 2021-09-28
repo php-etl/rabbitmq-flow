@@ -13,6 +13,7 @@ final class State implements StateInterface
 
     public function __construct(
         private Client $connection,
+        private string $pipelineId,
         private string $stepCode,
         private string $stepLabel,
         private string $topic,
@@ -22,6 +23,7 @@ final class State implements StateInterface
     }
 
     public static function withoutAuthentication(
+        string $pipelineId,
         string $stepCode,
         string $stepLabel,
         string $host,
@@ -39,10 +41,11 @@ final class State implements StateInterface
         ]);
         $connection->connect();
 
-        return new self($connection, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
+        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
     }
 
     public static function withAuthentication(
+        string $pipelineId,
         string $stepCode,
         string $stepLabel,
         string $host,
@@ -62,7 +65,7 @@ final class State implements StateInterface
         ]);
         $connection->connect();
 
-        return new self($connection, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
+        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
     }
 
     public function initialize(int $start = 0): void
@@ -70,6 +73,7 @@ final class State implements StateInterface
         $this->metrics = [
             'accept' => 0,
             'reject' => 0,
+            'error' => 0,
         ];
 
         $this->channel->queueDeclare(
@@ -97,7 +101,9 @@ final class State implements StateInterface
 
     public function error(int $step = 1): void
     {
-        // Not implemented yet
+        $this->metrics['error'] += $step;
+
+        $this->sendMessage('error');
     }
 
     public function teardown(): void
@@ -112,7 +118,7 @@ final class State implements StateInterface
 
         $this->channel->publish(
             \json_encode([
-                'id' => '',
+                'id' => $this->pipelineId,
                 'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
                 'stepsUpdates' => [
                     [
@@ -121,7 +127,7 @@ final class State implements StateInterface
                         'metrics' => [
                             [
                                 'code' => $metricCode,
-                                'increment' => $step
+                                'increment' => $this->metrics[$metricCode]
                             ]
                         ]
                     ]
