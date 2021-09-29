@@ -9,7 +9,7 @@ use Kiboko\Contract\Pipeline\StateInterface;
 final class State implements StateInterface
 {
     private Channel $channel;
-    private array $metrics;
+    private array $metrics = [];
 
     public function __construct(
         private Client $connection,
@@ -17,6 +17,7 @@ final class State implements StateInterface
         private string $stepCode,
         private string $stepLabel,
         private string $topic,
+        private ?int $messageLimit = 1,
         private ?string $exchange = null,
     ) {
         $this->channel = $this->connection->channel();
@@ -29,19 +30,20 @@ final class State implements StateInterface
         string $host,
         string $vhost,
         string $topic,
+        ?int $messageLimit = 1,
         ?string $exchange = null,
         ?int $port = null,
     ): self {
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => 'guest',
             'password' => 'guest',
         ]);
         $connection->connect();
 
-        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
+        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, messageLimit: $messageLimit, exchange: $exchange);
     }
 
     public static function withAuthentication(
@@ -53,22 +55,23 @@ final class State implements StateInterface
         string $topic,
         ?string $user,
         ?string $password,
+        ?int $messageLimit = 1,
         ?string $exchange = null,
         ?int $port = null,
     ): self {
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => $user,
             'password' => $password,
         ]);
         $connection->connect();
 
-        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, exchange: $exchange);
+        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, messageLimit: $messageLimit, exchange: $exchange);
     }
 
-    public function initialize(int $start = 0): void
+    public function initialize(): void
     {
         $this->metrics = [
             'accept' => 0,
@@ -89,30 +92,34 @@ final class State implements StateInterface
     {
         $this->metrics['accept'] += $step;
 
-        $this->sendMessage('accept');
+        if ($this->metrics['accept'] === $this->messageLimit) {
+            $this->sendUpdate();
+
+            $this->metrics['accept'] = 0;
+            $this->metrics['reject'] = 0;
+            $this->metrics['error'] = 0;
+        }
     }
 
     public function reject(int $step = 1): void
     {
         $this->metrics['reject'] += $step;
-
-        $this->sendMessage('reject');
     }
 
     public function error(int $step = 1): void
     {
         $this->metrics['error'] += $step;
-
-        $this->sendMessage('error');
     }
 
     public function teardown(): void
     {
+        $this->sendUpdate();
+
         $this->channel->close();
         $this->connection->stop();
     }
 
-    private function sendMessage(string $metricCode): void
+    private function sendUpdate(): void
     {
         $date = new \DateTime();
 
@@ -126,8 +133,16 @@ final class State implements StateInterface
                         'label' => $this->stepLabel ?: $this->stepCode,
                         'metrics' => [
                             [
-                                'code' => $metricCode,
-                                'increment' => $this->metrics[$metricCode]
+                                'code' => 'accept',
+                                'value' => $this->metrics['accept']
+                            ],
+                            [
+                                'code' => 'reject',
+                                'value' => $this->metrics['reject']
+                            ],
+                            [
+                                'code' => 'error',
+                                'value' => $this->metrics['error']
                             ]
                         ]
                     ]

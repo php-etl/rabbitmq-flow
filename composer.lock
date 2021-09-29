@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ee6a10b10f28170c75b9c7c44ecced2",
+    "content-hash": "bd66fe182c843dbbe072b72be6058df0",
     "packages": [
         {
             "name": "bunny/bunny",
@@ -68,16 +68,16 @@
         },
         {
             "name": "php-etl/bucket",
-            "version": "dev-feature/update-bucket-contracts",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket.git",
-                "reference": "543059d30640f603c6f72923461ff8de70a3e4e4"
+                "reference": "a5a20ac8a33d9460f30b57ff92761031bc66a062"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket/zipball/543059d30640f603c6f72923461ff8de70a3e4e4",
-                "reference": "543059d30640f603c6f72923461ff8de70a3e4e4",
+                "url": "https://api.github.com/repos/php-etl/bucket/zipball/a5a20ac8a33d9460f30b57ff92761031bc66a062",
+                "reference": "a5a20ac8a33d9460f30b57ff92761031bc66a062",
                 "shasum": ""
             },
             "require": {
@@ -92,6 +92,7 @@
                 "phpunit/php-invoker": "*",
                 "phpunit/phpunit": "^9.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -120,9 +121,9 @@
             "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
             "support": {
                 "issues": "https://github.com/php-etl/bucket/issues",
-                "source": "https://github.com/php-etl/bucket/tree/feature/update-bucket-contracts"
+                "source": "https://github.com/php-etl/bucket/tree/master"
             },
-            "time": "2021-09-28T07:39:19+00:00"
+            "time": "2021-09-29T07:03:50+00:00"
         },
         {
             "name": "php-etl/bucket-contracts",
@@ -408,16 +409,16 @@
     "packages-dev": [
         {
             "name": "adlawson/vfs",
-            "version": "dev-develop",
+            "version": "0.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/adlawson/php-vfs.git",
-                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af"
+                "reference": "e955034419d6a8f92c9a8ea2e626eeed96b41095"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adlawson/php-vfs/zipball/610649d759d712cb0a5ec340b0b372f5c9a2f9af",
-                "reference": "610649d759d712cb0a5ec340b0b372f5c9a2f9af",
+                "url": "https://api.github.com/repos/adlawson/php-vfs/zipball/e955034419d6a8f92c9a8ea2e626eeed96b41095",
+                "reference": "e955034419d6a8f92c9a8ea2e626eeed96b41095",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +431,6 @@
                 "mockery/mockery": "^0.9",
                 "phpunit/phpunit": "^4.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -465,7 +465,7 @@
                 "issues": "https://github.com/adlawson/php-vfs/issues",
                 "source": "https://github.com/adlawson/php-vfs/tree/develop"
             },
-            "time": "2016-04-22T07:46:29+00:00"
+            "time": "2016-02-20T12:46:01+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -4488,19 +4488,9 @@
             "time": "2015-12-17T08:42:14+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "php-etl/bucket",
-            "version": "dev-feature/update-bucket-contracts",
-            "alias": "0.2.0",
-            "alias_normalized": "0.2.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "php-etl/bucket": 20,
-        "adlawson/vfs": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
