@@ -2,157 +2,86 @@
 
 namespace Kiboko\Component\Flow\RabbitMQ;
 
-use Bunny\Channel;
 use Bunny\Client;
 use Kiboko\Contract\Pipeline\StateInterface;
 
 final class State implements StateInterface
 {
-    private Channel $channel;
-    private array $metrics = [];
+    private int $acceptMetric = 0;
+    private int $rejectMetric = 0;
+    private int $errorMetric = 0;
 
     public function __construct(
-        private Client $connection,
-        private string $pipelineId,
+        private StateManager $manager,
         private string $stepCode,
         private string $stepLabel,
-        private string $topic,
-        private ?int $messageLimit = 1,
-        private ?string $exchange = null,
     ) {
-        $this->channel = $this->connection->channel();
-    }
-
-    public static function withoutAuthentication(
-        string $pipelineId,
-        string $stepCode,
-        string $stepLabel,
-        string $host,
-        string $vhost,
-        string $topic,
-        ?int $messageLimit = 1,
-        ?string $exchange = null,
-        ?int $port = null,
-    ): self {
-        $connection = new Client([
-            'host' => $host,
-            'port' => $port,
-            'vhost' => $vhost,
-            'user' => 'guest',
-            'password' => 'guest',
-        ]);
-        $connection->connect();
-
-        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, messageLimit: $messageLimit, exchange: $exchange);
-    }
-
-    public static function withAuthentication(
-        string $pipelineId,
-        string $stepCode,
-        string $stepLabel,
-        string $host,
-        string $vhost,
-        string $topic,
-        ?string $user,
-        ?string $password,
-        ?int $messageLimit = 1,
-        ?string $exchange = null,
-        ?int $port = null,
-    ): self {
-        $connection = new Client([
-            'host' => $host,
-            'port' => $port,
-            'vhost' => $vhost,
-            'user' => $user,
-            'password' => $password,
-        ]);
-        $connection->connect();
-
-        return new self($connection, pipelineId: $pipelineId, stepCode: $stepCode, stepLabel: $stepLabel, topic: $topic, messageLimit: $messageLimit, exchange: $exchange);
     }
 
     public function initialize(): void
     {
-        $this->metrics = [
-            'accept' => 0,
-            'reject' => 0,
-            'error' => 0,
-        ];
-
-        $this->channel->queueDeclare(
-            queue: $this->topic,
-            passive: false,
-            durable: true,
-            exclusive: false,
-            autoDelete: true,
-        );
+        $this->acceptMetric = 0;
+        $this->rejectMetric = 0;
+        $this->errorMetric = 0;
     }
 
     public function accept(int $step = 1): void
     {
-        $this->metrics['accept'] += $step;
+        $this->acceptMetric += $step;
 
-        if ($this->metrics['accept'] === $this->messageLimit) {
-            $this->sendUpdate();
-
-            $this->metrics['accept'] = 0;
-            $this->metrics['reject'] = 0;
-            $this->metrics['error'] = 0;
-        }
+        $this->manager->trySend($step);
     }
 
     public function reject(int $step = 1): void
     {
-        $this->metrics['reject'] += $step;
+        $this->rejectMetric += $step;
+
+        $this->manager->trySend($step);
     }
 
     public function error(int $step = 1): void
     {
-        $this->metrics['error'] += $step;
+        $this->errorMetric += $step;
+
+        $this->manager->trySend($step);
     }
 
     public function teardown(): void
     {
-        $this->sendUpdate();
-
-        $this->channel->close();
-        $this->connection->stop();
+        $this->manager->teardown($this);
     }
 
-    private function sendUpdate(): void
+    public function toArray(): array
     {
-        $date = new \DateTime();
+        return [
+            'code' => $this->stepCode,
+            'label' => $this->stepLabel ?: $this->stepCode,
+            'metrics' => iterator_to_array($this->walkMetrics()),
+        ];
+    }
 
-        $this->channel->publish(
-            \json_encode([
-                'id' => $this->pipelineId,
-                'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
-                'stepsUpdates' => [
-                    [
-                        'code' => $this->stepCode,
-                        'label' => $this->stepLabel ?: $this->stepCode,
-                        'metrics' => [
-                            [
-                                'code' => 'accept',
-                                'value' => $this->metrics['accept']
-                            ],
-                            [
-                                'code' => 'reject',
-                                'value' => $this->metrics['reject']
-                            ],
-                            [
-                                'code' => 'error',
-                                'value' => $this->metrics['error']
-                            ]
-                        ]
-                    ]
-                ]
-            ]),
-            [
-                'content-type' => 'application/json',
-            ],
-            $this->exchange,
-            $this->topic
-        );
+    private function walkMetrics(): \Generator
+    {
+        if ($this->acceptMetric > 0) {
+            yield [
+                'code' => 'accept',
+                'value' => $this->acceptMetric,
+            ];
+            $this->acceptMetric = 0;
+        }
+        if ($this->rejectMetric > 0) {
+            yield [
+                'code' => 'reject',
+                'value' => $this->rejectMetric,
+            ];
+            $this->rejectMetric = 0;
+        }
+        if ($this->errorMetric > 0) {
+            yield [
+                'code' => 'error',
+                'value' => $this->errorMetric,
+            ];
+            $this->errorMetric = 0;
+        }
     }
 }
