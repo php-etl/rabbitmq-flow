@@ -4,6 +4,7 @@ namespace Kiboko\Component\Flow\RabbitMQ;
 
 use Bunny\Channel;
 use Bunny\Client;
+use Ramsey\Uuid\Uuid;
 
 class StateManager
 {
@@ -15,7 +16,6 @@ class StateManager
 
     public function __construct(
         private Client $connection,
-        private string $pipelineId,
         private string $topic,
         private int $lineThreshold = 1000,
         private ?string $exchange = null,
@@ -37,10 +37,9 @@ class StateManager
     }
 
     public function stepState(
-        string $stepCode,
-        string $stepLabel,
+       State $state
     ): State {
-        return $this->steps[] = new State($this, $stepCode, $stepLabel);
+        return $this->steps[] = $state;
     }
 
     public function trySend($count): void
@@ -73,7 +72,7 @@ class StateManager
         $this->channel->publish(
             \json_encode([
                 'messageNumber' => ++$this->messageCount,
-                'id' => $this->pipelineId,
+                'id' => Uuid::uuid4(),
                 'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
                 'stepsUpdates' => array_map(fn (State $step) => $step->toArray(), $this->steps),
             ]),

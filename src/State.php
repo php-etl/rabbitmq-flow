@@ -20,6 +20,8 @@ final class State implements StateInterface
 
     public function initialize(): void
     {
+        $this->manager->stepState($this);
+
         $this->acceptMetric = 0;
         $this->rejectMetric = 0;
         $this->errorMetric = 0;
