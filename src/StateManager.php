@@ -37,9 +37,10 @@ class StateManager
     }
 
     public function stepState(
-       State $state
+       string $stepCode,
+       string $stepLabel,
     ): State {
-        return $this->steps[] = $state;
+        return $this->steps[] = new State($this, $stepCode, $stepLabel);
     }
 
     public function trySend($count): void
