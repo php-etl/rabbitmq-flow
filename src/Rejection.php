@@ -8,38 +8,64 @@ use Kiboko\Contract\Pipeline\RejectionInterface;
 
 final class Rejection implements RejectionInterface
 {
-    private Client $connection;
     private Channel $channel;
 
     public function __construct(
-        string $host,
-        string $vhost,
+        private Client $connection,
+        private string $stepUuid,
         private string $topic,
-        ?string $user = 'guest',
-        ?string $password = 'guest',
         private ?string $exchange = null,
-        ?int $port = null,
     ) {
-        $this->connection = new Client([
-            'host' => $host,
-            'port' => $port,
-            'vhost'  => $vhost,
-            'user' => $user,
-            'password' => $password,
-        ]);
-        $this->connection->connect();
-
         $this->channel = $this->connection->channel();
+        $this->channel->queueDeclare(
+            queue: $this->topic,
+            passive: false,
+            durable: true,
+            exclusive: false,
+            autoDelete: true,
+        );
     }
 
     public static function withoutAuthentication(
+        string $stepUuid,
         string $host,
         string $vhost,
         string $topic,
         ?string $exchange = null,
         ?int $port = null,
     ): self {
-        return new self(host: $host, vhost: $vhost, topic: $topic, exchange: $exchange, port: $port);
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost'  => $vhost,
+            'user' => 'guest',
+            'password' => 'guest',
+        ]);
+        $connection->connect();
+
+        return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
+    }
+
+    public static function withAuthentication(
+        string $stepUuid,
+        string $host,
+        string $vhost,
+        string $topic,
+        ?string $user,
+        ?string $password,
+        ?string $exchange = null,
+        ?int $port = null,
+    ): self {
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost'  => $vhost,
+            'user' => $user,
+            'password' => $password,
+        ]);
+        $connection->connect();
+
+        return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
     }
 
     public function reject(object|array $rejection, ?\Throwable $exception = null): void
@@ -48,6 +74,7 @@ final class Rejection implements RejectionInterface
             \json_encode([
                 'item' => $rejection,
                 'exception' => $exception,
+                'step' => $this->stepUuid,
             ]),
             [
                 'content-type' => 'application/json',
@@ -55,5 +82,22 @@ final class Rejection implements RejectionInterface
             $this->topic,
             $this->exchange,
         );
+    }
+
+    public function initialize(): void
+    {
+        $this->channel->queueDeclare(
+            queue: $this->topic,
+            passive: false,
+            durable: true,
+            exclusive: false,
+            autoDelete: true,
+        );
+    }
+
+    public function teardown(): void
+    {
+        $this->channel->close();
+        $this->connection->stop();
     }
 }
