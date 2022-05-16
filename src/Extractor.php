@@ -70,7 +70,7 @@ final class Extractor implements ExtractorInterface
             $message = $this->channel->get($this->topic);
             $this->channel->ack($message);
 
-            yield new AcceptanceResultBucket($message);
+            yield new AcceptanceResultBucket(\json_decode($message->content, true));
         }
     }
 }
