@@ -68,6 +68,9 @@ final class Extractor implements ExtractorInterface
     {
         while (true) {
             $message = $this->channel->get($this->topic);
+            if ($message === null) {
+                break;
+            }
             $this->channel->ack($message);
 
             yield new AcceptanceResultBucket(\json_decode($message->content, true));
