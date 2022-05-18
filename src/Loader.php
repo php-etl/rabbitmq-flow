@@ -77,8 +77,8 @@ final class Loader implements LoaderInterface
                 [
                     'content-type' => 'application/json',
                 ],
-                $this->topic,
-                $this->exchange,
+              exchange: $this->exchange,
+              routingKey: $this->topic,
             );
 
             $line = yield new AcceptanceResultBucket($line);
