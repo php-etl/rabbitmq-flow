@@ -7,7 +7,7 @@ on:
 jobs:
     rector:
         runs-on: ubuntu-latest
-        if: github.event.pull_request.head.repo.full_name == 'php-etl/zoho-crm-flow'
+        if: github.event.pull_request.head.repo.full_name == 'php-etl/rabbitmq-flow'
         steps:
             -   uses: actions/checkout@v3
 
