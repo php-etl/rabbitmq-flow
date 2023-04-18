@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Component\Flow\RabbitMQ;
 
@@ -6,7 +8,7 @@ use Bunny\Channel;
 use Bunny\Client;
 use Kiboko\Contract\Pipeline\RejectionInterface;
 
-final class Rejection implements RejectionInterface
+final readonly class Rejection implements RejectionInterface
 {
     private Channel $channel;
 
@@ -37,7 +39,7 @@ final class Rejection implements RejectionInterface
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => 'guest',
             'password' => 'guest',
         ]);
@@ -59,7 +61,7 @@ final class Rejection implements RejectionInterface
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => $user,
             'password' => $password,
         ]);
@@ -71,11 +73,11 @@ final class Rejection implements RejectionInterface
     public function reject(object|array $rejection, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
-            \json_encode([
+            json_encode([
                 'item' => $rejection,
                 'exception' => $exception,
                 'step' => $this->stepUuid,
-            ]),
+            ], \JSON_THROW_ON_ERROR),
             [
                 'content-type' => 'application/json',
             ],

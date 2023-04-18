@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Component\Flow\RabbitMQ;
 
@@ -11,13 +13,13 @@ final class State implements StateInterface
     private int $errorMetric = 0;
 
     public function __construct(
-        private StateManager $manager,
-        private string $stepCode,
-        private string $stepLabel,
+        private readonly StateManager $manager,
+        private readonly string $stepCode,
+        private readonly string $stepLabel,
     ) {
     }
 
-    public function initialize(): void
+    public function initialize(int $start = 0): void
     {
         $this->acceptMetric = 0;
         $this->rejectMetric = 0;

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Component\Flow\RabbitMQ;
 
@@ -7,7 +9,7 @@ use Bunny\Client;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 
-final class Loader implements LoaderInterface
+final readonly class Loader implements LoaderInterface
 {
     private Channel $channel;
 
@@ -37,7 +39,7 @@ final class Loader implements LoaderInterface
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => 'guest',
             'password' => 'guest',
         ]);
@@ -58,7 +60,7 @@ final class Loader implements LoaderInterface
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => $user,
             'password' => $password,
         ]);
@@ -73,12 +75,12 @@ final class Loader implements LoaderInterface
 
         while (true) {
             $this->channel->publish(
-                \json_encode($line, JSON_THROW_ON_ERROR),
+                json_encode($line, \JSON_THROW_ON_ERROR),
                 [
                     'content-type' => 'application/json',
                 ],
-              exchange: $this->exchange,
-              routingKey: $this->topic,
+                exchange: $this->exchange,
+                routingKey: $this->topic,
             );
 
             $line = yield new AcceptanceResultBucket($line);
