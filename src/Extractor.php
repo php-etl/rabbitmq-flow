@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Component\Flow\RabbitMQ;
 
@@ -7,7 +9,7 @@ use Bunny\Client;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
-final class Extractor implements ExtractorInterface
+final readonly class Extractor implements ExtractorInterface
 {
     private Channel $channel;
 
@@ -35,7 +37,7 @@ final class Extractor implements ExtractorInterface
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => 'guest',
             'password' => 'guest',
         ]);
@@ -55,7 +57,7 @@ final class Extractor implements ExtractorInterface
         $connection = new Client([
             'host' => $host,
             'port' => $port,
-            'vhost'  => $vhost,
+            'vhost' => $vhost,
             'user' => $user,
             'password' => $password,
         ]);
@@ -68,12 +70,12 @@ final class Extractor implements ExtractorInterface
     {
         while (true) {
             $message = $this->channel->get($this->topic);
-            if ($message === null) {
+            if (null === $message) {
                 break;
             }
             $this->channel->ack($message);
 
-            yield new AcceptanceResultBucket(\json_decode($message->content, true));
+            yield new AcceptanceResultBucket(json_decode($message->content, true, 512, \JSON_THROW_ON_ERROR));
         }
     }
 }
