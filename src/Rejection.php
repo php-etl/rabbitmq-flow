@@ -81,8 +81,8 @@ final readonly class Rejection implements RejectionInterface
             [
                 'content-type' => 'application/json',
             ],
-            $this->topic,
             $this->exchange,
+            $this->topic,
         );
     }
 
