@@ -7,8 +7,9 @@ namespace Kiboko\Component\Flow\RabbitMQ;
 use Bunny\Channel;
 use Bunny\Client;
 use Kiboko\Contract\Pipeline\RejectionInterface;
+use Kiboko\Contract\Pipeline\RejectionWithReasonInterface;
 
-final readonly class Rejection implements RejectionInterface
+final readonly class Rejection implements RejectionInterface, RejectionWithReasonInterface
 {
     private Channel $channel;
 
@@ -75,6 +76,23 @@ final readonly class Rejection implements RejectionInterface
         $this->channel->publish(
             json_encode([
                 'item' => $rejection,
+                'exception' => $exception,
+                'step' => $this->stepUuid,
+            ], \JSON_THROW_ON_ERROR),
+            [
+                'content-type' => 'application/json',
+            ],
+            $this->exchange,
+            $this->topic,
+        );
+    }
+
+    public function rejectWithReason(object|array $rejection, string $reason, ?\Throwable $exception = null): void
+    {
+        $this->channel->publish(
+            json_encode([
+                'item' => $rejection,
+                'reason' => $reason,
                 'exception' => $exception,
                 'step' => $this->stepUuid,
             ], \JSON_THROW_ON_ERROR),
