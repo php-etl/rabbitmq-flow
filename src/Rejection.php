@@ -7,9 +7,9 @@ namespace Kiboko\Component\Flow\RabbitMQ;
 use Bunny\Channel;
 use Bunny\Client;
 use Kiboko\Contract\Pipeline\RejectionInterface;
-use Kiboko\Contract\Pipeline\StepCodeInterface;
+use Kiboko\Contract\Pipeline\RejectionWithReasonInterface;
 
-final readonly class Rejection implements RejectionInterface
+final readonly class Rejection implements RejectionInterface, RejectionWithReasonInterface
 {
     private Channel $channel;
 
@@ -27,12 +27,6 @@ final readonly class Rejection implements RejectionInterface
             exclusive: false,
             autoDelete: true,
         );
-    }
-
-    public function teardown(): void
-    {
-        $this->channel->close();
-        $this->connection->stop();
     }
 
     public static function withoutAuthentication(
@@ -77,10 +71,10 @@ final readonly class Rejection implements RejectionInterface
         return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
     }
 
-    public function reject(StepCodeInterface $step, array|object $rejection, ?\Throwable $exception = null): void
+    public function reject(object|array $rejection, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
-            \json_encode([
+            json_encode([
                 'item' => $rejection,
                 'exception' => $exception,
                 'step' => $this->stepUuid,
@@ -93,11 +87,12 @@ final readonly class Rejection implements RejectionInterface
         );
     }
 
-    public function rejectWithReason(StepCodeInterface $step, array|object $rejection, string $reason, ?\Throwable $exception = null): void
+    public function rejectWithReason(object|array $rejection, string $reason, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
-            \json_encode([
+            json_encode([
                 'item' => $rejection,
+                'reason' => $reason,
                 'exception' => $exception,
                 'step' => $this->stepUuid,
             ], \JSON_THROW_ON_ERROR),
@@ -118,5 +113,11 @@ final readonly class Rejection implements RejectionInterface
             exclusive: false,
             autoDelete: true,
         );
+    }
+
+    public function teardown(): void
+    {
+        $this->channel->close();
+        $this->connection->stop();
     }
 }
