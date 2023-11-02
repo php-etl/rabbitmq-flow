@@ -38,6 +38,49 @@ class StateManager
         $this->channel->close();
     }
 
+    public static function withoutAuthentication(
+        string $host,
+        string $vhost,
+        string $topic,
+        ?string $exchange = null,
+        ?int $port = null,
+        ?int $lineThreshold = 1000,
+    ): self {
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost' => $vhost,
+            'user' => 'guest',
+            'password' => 'guest',
+        ]);
+        $connection->connect();
+
+        return new self(connection: $connection, topic: $topic, lineThreshold: $lineThreshold, exchange: $exchange);
+    }
+
+    public static function withAuthentication(
+        string $host,
+        string $vhost,
+        string $topic,
+        string $user,
+        string $password,
+        ?string $exchange = null,
+        ?int $port = null,
+        ?int $lineThreshold = 1000,
+    ): self {
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost' => $vhost,
+            'user' => $user,
+            'password' => $password,
+        ]);
+        $connection->connect();
+
+        return new self(connection: $connection, topic: $topic, lineThreshold: $lineThreshold, exchange: $exchange);
+    }
+
+
     public function stepState(
        string $stepCode,
        string $stepLabel,
