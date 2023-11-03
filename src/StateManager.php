@@ -38,11 +38,56 @@ class StateManager
         $this->channel->close();
     }
 
+    public static function withoutAuthentication(
+        string $host,
+        string $vhost,
+        string $topic,
+        ?string $exchange = null,
+        ?int $port = null,
+        ?int $lineThreshold = 1000,
+    ): self {
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost' => $vhost,
+            'user' => 'guest',
+            'password' => 'guest',
+        ]);
+        $connection->connect();
+
+        return new self(connection: $connection, topic: $topic, lineThreshold: $lineThreshold, exchange: $exchange);
+    }
+
+    public static function withAuthentication(
+        string $host,
+        string $vhost,
+        string $topic,
+        string $user,
+        string $password,
+        ?string $exchange = null,
+        ?int $port = null,
+        ?int $lineThreshold = 1000,
+    ): self {
+        $connection = new Client([
+            'host' => $host,
+            'port' => $port,
+            'vhost' => $vhost,
+            'user' => $user,
+            'password' => $password,
+        ]);
+        $connection->connect();
+
+        return new self(connection: $connection, topic: $topic, lineThreshold: $lineThreshold, exchange: $exchange);
+    }
+
+
     public function stepState(
+       string $jobCode,
        string $stepCode,
-       string $stepLabel,
     ): State {
-        return $this->steps[] = new State($this, $stepCode, $stepLabel);
+        $this->steps[] = $state = new State($this, $jobCode, $stepCode);
+
+        return $state;
     }
 
     public function trySend($count): void
@@ -75,11 +120,12 @@ class StateManager
         $this->channel->publish(
             json_encode([
                 'messageNumber' => ++$this->messageCount,
-                'id' => Uuid::uuid4(),
+                'execution' => getenv('EXECUTION_ID'),
                 'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
                 'stepsUpdates' => array_map(fn (State $step) => $step->toArray(), $this->steps),
             ], \JSON_THROW_ON_ERROR),
             [
+                'type' => 'update',
                 'content-type' => 'application/json',
             ],
             $this->exchange,
