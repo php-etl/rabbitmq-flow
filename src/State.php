@@ -14,8 +14,8 @@ final class State implements StateInterface
 
     public function __construct(
         private readonly StateManager $manager,
+        private readonly string $jobCode,
         private readonly string $stepCode,
-        private readonly string $stepLabel,
     ) {
     }
 
@@ -55,8 +55,8 @@ final class State implements StateInterface
     public function toArray(): array
     {
         return [
-            'code' => $this->stepCode,
-            'label' => $this->stepLabel ?: $this->stepCode,
+            'jobCode' => $this->jobCode,
+            'stepCode' => $this->stepCode,
             'metrics' => iterator_to_array($this->walkMetrics()),
         ];
     }

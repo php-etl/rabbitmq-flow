@@ -82,10 +82,12 @@ class StateManager
 
 
     public function stepState(
+       string $jobCode,
        string $stepCode,
-       string $stepLabel,
     ): State {
-        return $this->steps[] = new State($this, $stepCode, $stepLabel);
+        $this->steps[] = $state = new State($this, $jobCode, $stepCode);
+
+        return $state;
     }
 
     public function trySend($count): void
@@ -118,11 +120,12 @@ class StateManager
         $this->channel->publish(
             json_encode([
                 'messageNumber' => ++$this->messageCount,
-                'id' => Uuid::uuid4(),
+                'execution' => getenv('EXECUTION_ID'),
                 'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
                 'stepsUpdates' => array_map(fn (State $step) => $step->toArray(), $this->steps),
             ], \JSON_THROW_ON_ERROR),
             [
+                'type' => 'update',
                 'content-type' => 'application/json',
             ],
             $this->exchange,
