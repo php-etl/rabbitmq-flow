@@ -84,6 +84,8 @@ final readonly class Rejection implements RejectionInterface
             $this->exchange,
             $this->topic,
         );
+
+        $this->channel->getClient()->run(0);
     }
 
     public function initialize(): void
