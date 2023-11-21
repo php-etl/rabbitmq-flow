@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\Flow\RabbitMQ;
 
-use Kiboko\Contract\Pipeline\StateInterface;
+use Kiboko\Contract\Pipeline\StepCodeInterface;
+use Kiboko\Contract\Pipeline\StepStateInterface;
 
-final class State implements StateInterface
+final class State implements StepStateInterface
 {
+    private array $steps = [];
     private int $acceptMetric = 0;
     private int $rejectMetric = 0;
     private int $errorMetric = 0;
@@ -19,37 +21,25 @@ final class State implements StateInterface
     ) {
     }
 
-    public function initialize(int $start = 0): void
+    public function accept(int $count = 1): void
     {
-        $this->acceptMetric = 0;
-        $this->rejectMetric = 0;
-        $this->errorMetric = 0;
+        $this->acceptMetric += $count;
+
+        $this->manager->trySend($this->stepCode);
     }
 
-    public function accept(int $step = 1): void
+    public function reject(int $count = 1): void
     {
-        $this->acceptMetric += $step;
+        $this->rejectMetric += $count;
 
-        $this->manager->trySend($step);
+        $this->manager->trySend($this->stepCode);
     }
 
-    public function reject(int $step = 1): void
+    public function error(int $count = 1): void
     {
-        $this->rejectMetric += $step;
+        $this->errorMetric += $count;
 
-        $this->manager->trySend($step);
-    }
-
-    public function error(int $step = 1): void
-    {
-        $this->errorMetric += $step;
-
-        $this->manager->trySend($step);
-    }
-
-    public function teardown(): void
-    {
-        $this->manager->teardown($this);
+        $this->manager->trySend($this->stepCode);
     }
 
     public function toArray(): array

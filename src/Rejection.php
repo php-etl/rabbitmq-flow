@@ -7,6 +7,7 @@ namespace Kiboko\Component\Flow\RabbitMQ;
 use Bunny\Channel;
 use Bunny\Client;
 use Kiboko\Contract\Pipeline\RejectionInterface;
+use Kiboko\Contract\Pipeline\StepCodeInterface;
 
 final readonly class Rejection implements RejectionInterface
 {
@@ -70,7 +71,23 @@ final readonly class Rejection implements RejectionInterface
         return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
     }
 
-    public function reject(object|array $rejection, ?\Throwable $exception = null): void
+    public function reject(StepCodeInterface $step, object|array $rejection, ?\Throwable $exception = null): void
+    {
+        $this->channel->publish(
+            json_encode([
+                'item' => $rejection,
+                'exception' => $exception,
+                'step' => $this->stepUuid,
+            ], \JSON_THROW_ON_ERROR),
+            [
+                'content-type' => 'application/json',
+            ],
+            $this->exchange,
+            $this->topic,
+        );
+    }
+
+    public function rejectWithReason(StepCodeInterface $step, object|array $rejection, string $reason, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
             json_encode([

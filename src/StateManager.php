@@ -9,6 +9,8 @@ use Bunny\Client;
 
 class StateManager
 {
+    /** @var list<State> */
+    private array $states = [];
     private array $steps = [];
     private array $tearedDown = [];
     private int $messageCount = 0;
@@ -37,11 +39,9 @@ class StateManager
         $this->channel->close();
     }
 
-    public function stepState(
-       string $stepCode,
-       string $stepLabel,
-    ): State {
-        return $this->steps[] = new State($this, $stepCode, $stepLabel);
+    public function stepState(string $stepCode, string $stepLabel): State
+    {
+        return $this->steps[$stepCode] = new State($this, $stepCode, $stepLabel);
     }
 
     public function trySend($count): void
