@@ -4,63 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f37e1cbed07db545f25a0368c767d8ab",
+    "content-hash": "93e329737980ac44341beaa11743c756",
     "packages": [
-        {
-            "name": "brick/math",
-            "version": "0.11.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/brick/math.git",
-                "reference": "0ad82ce168c82ba30d1c01ec86116ab52f589478"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/0ad82ce168c82ba30d1c01ec86116ab52f589478",
-                "reference": "0ad82ce168c82ba30d1c01ec86116ab52f589478",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.0"
-            },
-            "require-dev": {
-                "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^9.0",
-                "vimeo/psalm": "5.0.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Brick\\Math\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Arbitrary-precision arithmetic library",
-            "keywords": [
-                "Arbitrary-precision",
-                "BigInteger",
-                "BigRational",
-                "arithmetic",
-                "bigdecimal",
-                "bignum",
-                "brick",
-                "math"
-            ],
-            "support": {
-                "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.11.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/BenMorel",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-01-15T23:15:59+00:00"
-        },
         {
             "name": "bunny/bunny",
             "version": "v0.5.4",
@@ -127,21 +72,21 @@
         },
         {
             "name": "php-etl/bucket",
-            "version": "v0.3.0",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket.git",
-                "reference": "4c63c1a55f93956634a53662dfd4cde1833ddcee"
+                "reference": "233beac60eac83944160a5af993c20536d1ea1b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket/zipball/4c63c1a55f93956634a53662dfd4cde1833ddcee",
-                "reference": "4c63c1a55f93956634a53662dfd4cde1833ddcee",
+                "url": "https://api.github.com/repos/php-etl/bucket/zipball/233beac60eac83944160a5af993c20536d1ea1b0",
+                "reference": "233beac60eac83944160a5af993c20536d1ea1b0",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
-                "php-etl/bucket-contracts": "0.2.*"
+                "php-etl/bucket-contracts": "0.3.*"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
@@ -149,10 +94,11 @@
                 "phpstan/phpstan": "^1.10",
                 "rector/rector": "^0.15"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.3.x-dev"
+                    "dev-main": "0.4.x-dev"
                 }
             },
             "autoload": {
@@ -177,22 +123,22 @@
             "description": "This library implements the Extract-Transform-Load pattern asynchronously in PHP with the help of iterators and generators",
             "support": {
                 "issues": "https://github.com/php-etl/bucket/issues",
-                "source": "https://github.com/php-etl/bucket/tree/v0.3.0"
+                "source": "https://github.com/php-etl/bucket/tree/main"
             },
-            "time": "2023-04-12T12:40:59+00:00"
+            "time": "2023-11-14T14:39:36+00:00"
         },
         {
             "name": "php-etl/bucket-contracts",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/bucket-contracts.git",
-                "reference": "e96726f9b89dea7308482fa6c2ce4db0757960ce"
+                "reference": "64170754cb1f5e556c8e526177be51d905c3b15f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/e96726f9b89dea7308482fa6c2ce4db0757960ce",
-                "reference": "e96726f9b89dea7308482fa6c2ce4db0757960ce",
+                "url": "https://api.github.com/repos/php-etl/bucket-contracts/zipball/64170754cb1f5e556c8e526177be51d905c3b15f",
+                "reference": "64170754cb1f5e556c8e526177be51d905c3b15f",
                 "shasum": ""
             },
             "require": {
@@ -206,7 +152,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.2.x-dev"
+                    "dev-main": "0.3.x-dev"
                 }
             },
             "autoload": {
@@ -224,34 +170,35 @@
                     "homepage": "http://kiboko.fr"
                 },
                 {
-                    "name": "Grégory Planchatn rules",
+                    "name": "Grégory Planchat",
                     "email": "gregory@kiboko.fr"
                 }
             ],
             "description": "This library describes contracts for the data-interchange buckets.",
             "support": {
                 "issues": "https://github.com/php-etl/bucket-contracts/issues",
-                "source": "https://github.com/php-etl/bucket-contracts/tree/v0.2.0"
+                "source": "https://github.com/php-etl/bucket-contracts/tree/v0.3.0"
             },
-            "time": "2023-04-03T12:42:10+00:00"
+            "time": "2023-11-14T14:39:36+00:00"
         },
         {
             "name": "php-etl/pipeline-contracts",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/pipeline-contracts.git",
-                "reference": "499da7f0d7340cf90dd47f76426e952eb23bf6c2"
+                "reference": "29aac4a1644c960355a17876e4a84bb8f0b89654"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/499da7f0d7340cf90dd47f76426e952eb23bf6c2",
-                "reference": "499da7f0d7340cf90dd47f76426e952eb23bf6c2",
+                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/29aac4a1644c960355a17876e4a84bb8f0b89654",
+                "reference": "29aac4a1644c960355a17876e4a84bb8f0b89654",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.2",
-                "php-etl/bucket-contracts": "0.2.*"
+                "php-etl/bucket-contracts": "0.3.*",
+                "php-etl/satellite-contracts": "0.1.*"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
@@ -261,7 +208,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.4.x-dev"
+                    "dev-main": "0.5.x-dev"
                 }
             },
             "autoload": {
@@ -286,61 +233,39 @@
             "description": "This library describes contracts for the Extract-Transform-Load pattern.",
             "support": {
                 "issues": "https://github.com/php-etl/pipeline-contracts/issues",
-                "source": "https://github.com/php-etl/pipeline-contracts/tree/v0.4.0"
+                "source": "https://github.com/php-etl/pipeline-contracts/tree/v0.5.0"
             },
-            "time": "2023-04-17T13:08:18+00:00"
+            "time": "2023-11-15T10:45:24+00:00"
         },
         {
-            "name": "ramsey/collection",
-            "version": "2.0.0",
+            "name": "php-etl/satellite-contracts",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ramsey/collection.git",
-                "reference": "a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5"
+                "url": "https://github.com/php-etl/satellite-contracts.git",
+                "reference": "1d2bc6822bfdb3efc6a1f490e706db995c99ef41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/collection/zipball/a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5",
-                "reference": "a4b48764bfbb8f3a6a4d1aeb1a35bb5e9ecac4a5",
+                "url": "https://api.github.com/repos/php-etl/satellite-contracts/zipball/1d2bc6822bfdb3efc6a1f490e706db995c99ef41",
+                "reference": "1d2bc6822bfdb3efc6a1f490e706db995c99ef41",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
-                "captainhook/plugin-composer": "^5.3",
-                "ergebnis/composer-normalize": "^2.28.3",
-                "fakerphp/faker": "^1.21",
-                "hamcrest/hamcrest-php": "^2.0",
-                "jangregor/phpstan-prophecy": "^1.0",
-                "mockery/mockery": "^1.5",
-                "php-parallel-lint/php-console-highlighter": "^1.0",
-                "php-parallel-lint/php-parallel-lint": "^1.3",
-                "phpcsstandards/phpcsutils": "^1.0.0-rc1",
-                "phpspec/prophecy-phpunit": "^2.0",
-                "phpstan/extension-installer": "^1.2",
-                "phpstan/phpstan": "^1.9",
-                "phpstan/phpstan-mockery": "^1.1",
-                "phpstan/phpstan-phpunit": "^1.3",
-                "phpunit/phpunit": "^9.5",
-                "psalm/plugin-mockery": "^1.1",
-                "psalm/plugin-phpunit": "^0.18.4",
-                "ramsey/coding-standard": "^2.0.3",
-                "ramsey/conventional-commits": "^1.3",
-                "vimeo/psalm": "^5.4"
+                "rector/rector": "^0.15.0"
             },
             "type": "library",
             "extra": {
-                "captainhook": {
-                    "force-install": true
-                },
-                "ramsey/conventional-commits": {
-                    "configFile": "conventional-commits.json"
+                "branch-alias": {
+                    "dev-main": "0.1.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Ramsey\\Collection\\": "src/"
+                    "Kiboko\\Contract\\Satellite\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -349,127 +274,20 @@
             ],
             "authors": [
                 {
-                    "name": "Ben Ramsey",
-                    "email": "ben@benramsey.com",
-                    "homepage": "https://benramsey.com"
-                }
-            ],
-            "description": "A PHP library for representing and manipulating collections.",
-            "keywords": [
-                "array",
-                "collection",
-                "hash",
-                "map",
-                "queue",
-                "set"
-            ],
-            "support": {
-                "issues": "https://github.com/ramsey/collection/issues",
-                "source": "https://github.com/ramsey/collection/tree/2.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/ramsey",
-                    "type": "github"
+                    "name": "Kiboko SAS",
+                    "homepage": "http://kiboko.fr"
                 },
                 {
-                    "url": "https://tidelift.com/funding/github/packagist/ramsey/collection",
-                    "type": "tidelift"
+                    "name": "Grégory Planchat",
+                    "email": "gregory@kiboko.fr"
                 }
             ],
-            "time": "2022-12-31T21:50:55+00:00"
-        },
-        {
-            "name": "ramsey/uuid",
-            "version": "4.7.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ramsey/uuid.git",
-                "reference": "60a4c63ab724854332900504274f6150ff26d286"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/60a4c63ab724854332900504274f6150ff26d286",
-                "reference": "60a4c63ab724854332900504274f6150ff26d286",
-                "shasum": ""
-            },
-            "require": {
-                "brick/math": "^0.8.8 || ^0.9 || ^0.10 || ^0.11",
-                "ext-json": "*",
-                "php": "^8.0",
-                "ramsey/collection": "^1.2 || ^2.0"
-            },
-            "replace": {
-                "rhumsaa/uuid": "self.version"
-            },
-            "require-dev": {
-                "captainhook/captainhook": "^5.10",
-                "captainhook/plugin-composer": "^5.3",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
-                "doctrine/annotations": "^1.8",
-                "ergebnis/composer-normalize": "^2.15",
-                "mockery/mockery": "^1.3",
-                "paragonie/random-lib": "^2",
-                "php-mock/php-mock": "^2.2",
-                "php-mock/php-mock-mockery": "^1.3",
-                "php-parallel-lint/php-parallel-lint": "^1.1",
-                "phpbench/phpbench": "^1.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1.8",
-                "phpstan/phpstan-mockery": "^1.1",
-                "phpstan/phpstan-phpunit": "^1.1",
-                "phpunit/phpunit": "^8.5 || ^9",
-                "ramsey/composer-repl": "^1.4",
-                "slevomat/coding-standard": "^8.4",
-                "squizlabs/php_codesniffer": "^3.5",
-                "vimeo/psalm": "^4.9"
-            },
-            "suggest": {
-                "ext-bcmath": "Enables faster math with arbitrary-precision integers using BCMath.",
-                "ext-gmp": "Enables faster math with arbitrary-precision integers using GMP.",
-                "ext-uuid": "Enables the use of PeclUuidTimeGenerator and PeclUuidRandomGenerator.",
-                "paragonie/random-lib": "Provides RandomLib for use with the RandomLibAdapter",
-                "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
-            },
-            "type": "library",
-            "extra": {
-                "captainhook": {
-                    "force-install": true
-                }
-            },
-            "autoload": {
-                "files": [
-                    "src/functions.php"
-                ],
-                "psr-4": {
-                    "Ramsey\\Uuid\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A PHP library for generating and working with universally unique identifiers (UUIDs).",
-            "keywords": [
-                "guid",
-                "identifier",
-                "uuid"
-            ],
+            "description": "This library describes contracts for defining satellite formats",
             "support": {
-                "issues": "https://github.com/ramsey/uuid/issues",
-                "source": "https://github.com/ramsey/uuid/tree/4.7.4"
+                "issues": "https://github.com/php-etl/satellite-contracts/issues",
+                "source": "https://github.com/php-etl/satellite-contracts/tree/v0.1.0"
             },
-            "funding": [
-                {
-                    "url": "https://github.com/ramsey",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/ramsey/uuid",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-04-15T23:01:58+00:00"
+            "time": "2023-04-18T13:53:22+00:00"
         },
         {
             "name": "react/event-loop",
@@ -624,6 +442,88 @@
                 }
             ],
             "time": "2022-02-11T10:27:51+00:00"
+        },
+        {
+            "name": "symfony/polyfill-uuid",
+            "version": "v1.28.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-uuid.git",
+                "reference": "9c44518a5aff8da565c8a55dbe85d2769e6f630e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/9c44518a5aff8da565c8a55dbe85d2769e6f630e",
+                "reference": "9c44518a5aff8da565c8a55dbe85d2769e6f630e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "provide": {
+                "ext-uuid": "*"
+            },
+            "suggest": {
+                "ext-uuid": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.28-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Uuid\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Pineau",
+                    "email": "lyrixx@lyrixx.info"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for uuid functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "uuid"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-uuid/tree/v1.28.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-01-26T09:26:14+00:00"
         }
     ],
     "packages-dev": [
@@ -811,5 +711,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

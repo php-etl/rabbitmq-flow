@@ -1,52 +1,53 @@
 {
-  "name": "php-etl/rabbitmq-flow",
-  "description": "RabbitMQ implementation for the ETL pipeline",
-  "type": "library",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Kiboko SAS",
-      "homepage": "http://kiboko.fr"
+    "name": "php-etl/rabbitmq-flow",
+    "description": "RabbitMQ implementation for the ETL pipeline",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kiboko SAS",
+            "homepage": "http://kiboko.fr"
+        },
+        {
+            "name": "Grégory Planchat",
+            "email": "gregory@kiboko.fr"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kiboko\\Component\\Flow\\RabbitMQ\\": "src/"
+        }
     },
-    {
-      "name": "Grégory Planchat",
-      "email": "gregory@kiboko.fr"
+    "autoload-dev": {
+        "psr-4": {
+            "unit\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/unit/",
+            "functional\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/functional/",
+            "integration\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/integration/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin",
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.2",
+        "php-etl/pipeline-contracts": "0.5.*",
+        "php-etl/bucket-contracts": "0.3.*",
+        "php-etl/bucket": "*",
+        "bunny/bunny": "*",
+        "symfony/polyfill-uuid": "^1.28"
+    },
+    "require-dev": {
+        "rector/rector": "^0.15",
+        "mikey179/vfsstream": "^1.6"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Kiboko\\Component\\Flow\\RabbitMQ\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "unit\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/unit/",
-      "functional\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/functional/",
-      "integration\\Kiboko\\Component\\Flow\\RabbitMQ\\": "tests/integration/"
-    }
-  },
-  "config": {
-    "bin-dir": "bin",
-    "allow-plugins": {
-      "infection/extension-installer": true
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "require": {
-    "php": "^8.2",
-    "php-etl/pipeline-contracts": "0.4.*",
-    "php-etl/bucket": "*",
-    "bunny/bunny": "*",
-    "ramsey/uuid": "^4.2"
-  },
-  "require-dev": {
-    "rector/rector": "^0.15.24",
-    "mikey179/vfsstream": "^1.6"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-main": "0.2.x-dev"
-    }
-  }
 }

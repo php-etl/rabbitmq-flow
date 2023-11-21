@@ -6,7 +6,6 @@ namespace Kiboko\Component\Flow\RabbitMQ;
 
 use Bunny\Channel;
 use Bunny\Client;
-use Ramsey\Uuid\Uuid;
 
 class StateManager
 {
@@ -75,7 +74,7 @@ class StateManager
         $this->channel->publish(
             json_encode([
                 'messageNumber' => ++$this->messageCount,
-                'id' => Uuid::uuid4(),
+                'id' => \uuid_create(\UUID_TYPE_RANDOM),
                 'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
                 'stepsUpdates' => array_map(fn (State $step) => $step->toArray(), $this->steps),
             ], \JSON_THROW_ON_ERROR),
