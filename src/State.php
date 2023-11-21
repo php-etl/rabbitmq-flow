@@ -9,7 +9,6 @@ use Kiboko\Contract\Pipeline\StepStateInterface;
 
 final class State implements StepStateInterface
 {
-    private array $steps = [];
     private int $acceptMetric = 0;
     private int $rejectMetric = 0;
     private int $errorMetric = 0;

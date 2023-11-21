@@ -10,7 +10,6 @@ use Bunny\Client;
 class StateManager
 {
     /** @var list<State> */
-    private array $states = [];
     private array $steps = [];
     private array $tearedDown = [];
     private int $messageCount = 0;
