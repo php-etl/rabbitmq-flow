@@ -74,7 +74,8 @@ final readonly class Loader implements LoaderInterface
     {
         $line = new EmptyResultBucket();
 
-        while ($line) {
+        /* @phpstan-ignore-next-line */
+        while (true) {
             $this->channel->publish(
                 json_encode($line, \JSON_THROW_ON_ERROR),
                 [
