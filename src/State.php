@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\Flow\RabbitMQ;
 
-use Kiboko\Contract\Pipeline\StepCodeInterface;
 use Kiboko\Contract\Pipeline\StepStateInterface;
 
 final class State implements StepStateInterface
@@ -17,8 +16,7 @@ final class State implements StepStateInterface
         private readonly StateManager $manager,
         private readonly string $stepCode,
         private readonly string $stepLabel,
-    ) {
-    }
+    ) {}
 
     public function accept(int $count = 1): void
     {
