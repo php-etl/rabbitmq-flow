@@ -34,8 +34,8 @@ final readonly class Loader implements LoaderInterface
         string $host,
         string $vhost,
         string $topic,
-        string $exchange = null,
-        int $port = null,
+        ?string $exchange = null,
+        ?int $port = null,
     ): self {
         $connection = new Client([
             'host' => $host,
@@ -55,8 +55,8 @@ final readonly class Loader implements LoaderInterface
         string $topic,
         ?string $user,
         ?string $password,
-        string $exchange = null,
-        int $port = null,
+        ?string $exchange = null,
+        ?int $port = null,
     ): self {
         $connection = new Client([
             'host' => $host,
@@ -74,10 +74,10 @@ final readonly class Loader implements LoaderInterface
     {
         $line = new EmptyResultBucket();
 
-        /* @phpstan-ignore-next-line */
+        // @phpstan-ignore-next-line
         while (true) {
             $this->channel->publish(
-                json_encode($line, \JSON_THROW_ON_ERROR),
+                \json_encode($line, \JSON_THROW_ON_ERROR),
                 [
                     'content-type' => 'application/json',
                 ],

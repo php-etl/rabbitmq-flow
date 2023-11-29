@@ -32,7 +32,7 @@ final readonly class Extractor implements ExtractorInterface
         string $host,
         string $vhost,
         string $topic,
-        int $port = null,
+        ?int $port = null,
     ): self {
         $connection = new Client([
             'host' => $host,
@@ -52,7 +52,7 @@ final readonly class Extractor implements ExtractorInterface
         string $topic,
         ?string $user,
         ?string $password,
-        int $port = null,
+        ?int $port = null,
     ): self {
         $connection = new Client([
             'host' => $host,
@@ -75,7 +75,7 @@ final readonly class Extractor implements ExtractorInterface
             }
             $this->channel->ack($message);
 
-            yield new AcceptanceResultBucket(json_decode($message->content, true, 512, \JSON_THROW_ON_ERROR));
+            yield new AcceptanceResultBucket(\json_decode($message->content, true, 512, \JSON_THROW_ON_ERROR));
         }
     }
 }

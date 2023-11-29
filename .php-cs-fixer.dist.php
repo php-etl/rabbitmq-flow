@@ -24,8 +24,12 @@ return (new PhpCsFixer\Config())
         'php_unit_construct' => true,
         'no_useless_sprintf' => true,
         'no_homoglyph_names' => true,
-        'native_function_invocation' => true,
-        'native_constant_invocation' => true,
+        'native_function_invocation' => [
+            'include' => ['@all'],
+        ],
+        'native_constant_invocation' => [
+            'include' => ['@all'],
+        ],
         'modernize_types_casting' => true,
         'logical_operators' => true,
         'is_null' => true,
@@ -35,6 +39,7 @@ return (new PhpCsFixer\Config())
         'ereg_to_preg' => true,
         'dir_constant' => true,
         'method_chaining_indentation' => false,
+        'nullable_type_declaration_for_default_null_value' => true
     ])
     ->setFinder($finder)
     ->setCacheFile('.php-cs-fixer.cache') // forward compatibility with 3.x line

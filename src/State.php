@@ -44,7 +44,7 @@ final class State implements StepStateInterface
         return [
             'code' => $this->stepCode,
             'label' => $this->stepLabel ?: $this->stepCode,
-            'metrics' => iterator_to_array($this->walkMetrics()),
+            'metrics' => \iterator_to_array($this->walkMetrics()),
         ];
     }
 
