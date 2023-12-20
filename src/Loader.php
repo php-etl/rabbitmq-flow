@@ -72,7 +72,7 @@ final readonly class Loader implements LoaderInterface
 
     public function load(): \Generator
     {
-        $line = new EmptyResultBucket();
+        $line = yield new EmptyResultBucket();
 
         // @phpstan-ignore-next-line
         while (true) {
