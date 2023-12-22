@@ -7,6 +7,7 @@ namespace Kiboko\Component\Flow\RabbitMQ;
 use Bunny\Channel;
 use Bunny\Client;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
+use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 
 final readonly class Loader implements LoaderInterface
@@ -71,11 +72,12 @@ final readonly class Loader implements LoaderInterface
 
     public function load(): \Generator
     {
-        $line = yield;
+        $line = yield new EmptyResultBucket();
 
+        // @phpstan-ignore-next-line
         while (true) {
             $this->channel->publish(
-                json_encode($line, \JSON_THROW_ON_ERROR),
+                \json_encode($line, \JSON_THROW_ON_ERROR),
                 [
                     'content-type' => 'application/json',
                 ],

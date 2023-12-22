@@ -75,7 +75,7 @@ final readonly class Extractor implements ExtractorInterface
             }
             $this->channel->ack($message);
 
-            yield new AcceptanceResultBucket(json_decode($message->content, true, 512, \JSON_THROW_ON_ERROR));
+            yield new AcceptanceResultBucket(\json_decode($message->content, true, 512, \JSON_THROW_ON_ERROR));
         }
     }
 }

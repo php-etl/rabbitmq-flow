@@ -29,6 +29,12 @@ final readonly class Rejection implements RejectionInterface
         );
     }
 
+    public function teardown(): void
+    {
+        $this->channel->close();
+        $this->connection->stop();
+    }
+
     public static function withoutAuthentication(
         string $stepUuid,
         string $host,
@@ -71,10 +77,10 @@ final readonly class Rejection implements RejectionInterface
         return new self($connection, stepUuid: $stepUuid, topic: $topic, exchange: $exchange);
     }
 
-    public function reject(StepCodeInterface $step, object|array $rejection, ?\Throwable $exception = null): void
+    public function reject(StepCodeInterface $step, array|object $rejection, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
-            json_encode([
+            \json_encode([
                 'item' => $rejection,
                 'exception' => $exception,
                 'step' => $this->stepUuid,
@@ -87,10 +93,10 @@ final readonly class Rejection implements RejectionInterface
         );
     }
 
-    public function rejectWithReason(StepCodeInterface $step, object|array $rejection, string $reason, ?\Throwable $exception = null): void
+    public function rejectWithReason(StepCodeInterface $step, array|object $rejection, string $reason, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
-            json_encode([
+            \json_encode([
                 'item' => $rejection,
                 'exception' => $exception,
                 'step' => $this->stepUuid,
@@ -112,11 +118,5 @@ final readonly class Rejection implements RejectionInterface
             exclusive: false,
             autoDelete: true,
         );
-    }
-
-    public function teardown(): void
-    {
-        $this->channel->close();
-        $this->connection->stop();
     }
 }

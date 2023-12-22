@@ -71,11 +71,11 @@ class StateManager
         $date = new \DateTimeImmutable();
 
         $this->channel->publish(
-            json_encode([
+            \json_encode([
                 'messageNumber' => ++$this->messageCount,
-                'id' => \uuid_create(\UUID_TYPE_RANDOM),
+                'id' => \uuid_create(UUID_TYPE_RANDOM),
                 'date' => ['date' => $date->format('c'), 'tz' => $date->getTimezone()->getName()],
-                'stepsUpdates' => array_map(fn (State $step) => $step->toArray(), $this->steps),
+                'stepsUpdates' => \array_map(fn (State $step) => $step->toArray(), $this->steps),
             ], \JSON_THROW_ON_ERROR),
             [
                 'content-type' => 'application/json',
