@@ -73,7 +73,7 @@ final readonly class Rejection implements StepRejectionInterface
     public function reject(object|array $rejection, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
-            json_encode([
+            \json_encode([
                 'item' => $rejection,
                 'exception' => $exception,
                 'step' => $this->stepUuid,
@@ -89,7 +89,7 @@ final readonly class Rejection implements StepRejectionInterface
     public function rejectWithReason(object|array $rejection, string $reason, ?\Throwable $exception = null): void
     {
         $this->channel->publish(
-            json_encode([
+            \json_encode([
                 'item' => $rejection,
                 'reason' => $reason,
                 'exception' => $exception,
