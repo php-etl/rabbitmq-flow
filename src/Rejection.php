@@ -6,10 +6,9 @@ namespace Kiboko\Component\Flow\RabbitMQ;
 
 use Bunny\Channel;
 use Bunny\Client;
-use Kiboko\Contract\Pipeline\RejectionInterface;
-use Kiboko\Contract\Pipeline\RejectionWithReasonInterface;
+use Kiboko\Contract\Pipeline\StepRejectionInterface;
 
-final readonly class Rejection implements RejectionInterface, RejectionWithReasonInterface
+final readonly class Rejection implements StepRejectionInterface
 {
     private Channel $channel;
 
