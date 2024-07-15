@@ -99,7 +99,7 @@ final readonly class Rejection implements RejectionInterface
 
     public function teardown(): void
     {
-        $this->channel->close();
+//        $this->channel->close();
         $this->connection->stop();
     }
 }
