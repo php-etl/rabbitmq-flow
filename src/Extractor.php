@@ -14,10 +14,10 @@ final readonly class Extractor implements ExtractorInterface
     private Channel $channel;
 
     public function __construct(
-        private Client $connection,
+        private Client $client,
         private string $topic,
     ) {
-        $this->channel = $this->connection->channel();
+        $this->channel = $this->client->channel();
 
         $this->channel->queueDeclare(
             queue: $this->topic,

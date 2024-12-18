@@ -15,11 +15,11 @@ final readonly class Loader implements LoaderInterface
     private Channel $channel;
 
     public function __construct(
-        private Client $connection,
+        private Client $client,
         private string $topic,
         private ?string $exchange = null,
     ) {
-        $this->channel = $this->connection->channel();
+        $this->channel = $this->client->channel();
 
         $this->channel->queueDeclare(
             queue: $this->topic,

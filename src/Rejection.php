@@ -14,12 +14,12 @@ final readonly class Rejection implements RejectionInterface
     private Channel $channel;
 
     public function __construct(
-        private Client $connection,
+        private Client $client,
         private string $stepUuid,
         private string $topic,
         private ?string $exchange = null,
     ) {
-        $this->channel = $this->connection->channel();
+        $this->channel = $this->client->channel();
         $this->channel->queueDeclare(
             queue: $this->topic,
             passive: false,
@@ -32,7 +32,7 @@ final readonly class Rejection implements RejectionInterface
     public function teardown(): void
     {
         $this->channel->close();
-        $this->connection->stop();
+        $this->client->stop();
     }
 
     public static function withoutAuthentication(

@@ -17,12 +17,12 @@ class StateManager
     private readonly Channel $channel;
 
     public function __construct(
-        private readonly Client $connection,
+        private readonly Client $client,
         private readonly string $topic,
         private readonly int $lineThreshold = 1000,
         private readonly ?string $exchange = null,
     ) {
-        $this->channel = $this->connection->channel();
+        $this->channel = $this->client->channel();
 
         $this->channel->queueDeclare(
             queue: $this->topic,
