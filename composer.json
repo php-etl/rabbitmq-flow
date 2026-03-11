@@ -42,8 +42,8 @@
         "symfony/polyfill-uuid": "^1.28"
     },
     "require-dev": {
-        "phpstan/phpstan": "^2.2",
-        "rector/rector": "^2.0",
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.3",
         "mikey179/vfsstream": "^1.6"
     },
     "extra": {
