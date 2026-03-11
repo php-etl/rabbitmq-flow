@@ -1,0 +1,7 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    ignoreErrors:
+        # Generator protocol: EmptyResultBucket/AcceptanceResultBucket with array|null vs array<string, mixed>
+        - '#Generator expects value type#'

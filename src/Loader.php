@@ -10,6 +10,9 @@ use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Component\Bucket\EmptyResultBucket;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 
+/**
+ * @implements LoaderInterface<array<string, mixed>, array<string, mixed>>
+ */
 final readonly class Loader implements LoaderInterface
 {
     private Channel $channel;
@@ -19,7 +22,11 @@ final readonly class Loader implements LoaderInterface
         private string $topic,
         private ?string $exchange = null,
     ) {
-        $this->channel = $this->connection->channel();
+        $channel = $this->connection->channel();
+        if (!$channel instanceof Channel) {
+            throw new \RuntimeException('Expected Channel from Bunny client');
+        }
+        $this->channel = $channel;
 
         $this->channel->queueDeclare(
             queue: $this->topic,
@@ -70,6 +77,7 @@ final readonly class Loader implements LoaderInterface
         return new self($connection, topic: $topic, exchange: $exchange);
     }
 
+    /** @return \Generator<int, AcceptanceResultBucket<array<string, mixed>>|EmptyResultBucket<array<string, mixed>>, array<string, mixed>|null, void> */
     public function load(): \Generator
     {
         $line = yield new EmptyResultBucket();
@@ -81,8 +89,8 @@ final readonly class Loader implements LoaderInterface
                 [
                     'content-type' => 'application/json',
                 ],
-                exchange: $this->exchange,
-                routingKey: $this->topic,
+                $this->exchange ?? '',
+                $this->topic,
             );
 
             $line = yield new AcceptanceResultBucket($line);

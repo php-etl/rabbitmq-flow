@@ -19,7 +19,11 @@ final readonly class Rejection implements RejectionInterface
         private string $topic,
         private ?string $exchange = null,
     ) {
-        $this->channel = $this->connection->channel();
+        $channel = $this->connection->channel();
+        if (!$channel instanceof Channel) {
+            throw new \RuntimeException('Expected Channel from Bunny client');
+        }
+        $this->channel = $channel;
         $this->channel->queueDeclare(
             queue: $this->topic,
             passive: false,
@@ -88,7 +92,7 @@ final readonly class Rejection implements RejectionInterface
             [
                 'content-type' => 'application/json',
             ],
-            $this->exchange,
+            $this->exchange ?? '',
             $this->topic,
         );
     }
@@ -104,7 +108,7 @@ final readonly class Rejection implements RejectionInterface
             [
                 'content-type' => 'application/json',
             ],
-            $this->exchange,
+            $this->exchange ?? '',
             $this->topic,
         );
     }
