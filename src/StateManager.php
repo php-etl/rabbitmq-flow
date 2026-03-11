@@ -9,8 +9,9 @@ use Bunny\Client;
 
 class StateManager
 {
-    /** @var list<State> */
+    /** @var array<string, State> */
     private array $steps = [];
+    /** @var list<State> */
     private array $tearedDown = [];
     private int $messageCount = 0;
     private int $lineCount = 0;
@@ -22,7 +23,11 @@ class StateManager
         private readonly int $lineThreshold = 1000,
         private readonly ?string $exchange = null,
     ) {
-        $this->channel = $this->connection->channel();
+        $channel = $this->connection->channel();
+        if (!$channel instanceof Channel) {
+            throw new \RuntimeException('Expected Channel from Bunny client');
+        }
+        $this->channel = $channel;
 
         $this->channel->queueDeclare(
             queue: $this->topic,
@@ -43,7 +48,7 @@ class StateManager
         return $this->steps[$stepCode] = new State($this, $stepCode, $stepLabel);
     }
 
-    public function trySend($count): void
+    public function trySend(int $count): void
     {
         $this->lineCount += $count;
 
@@ -80,7 +85,7 @@ class StateManager
             [
                 'content-type' => 'application/json',
             ],
-            $this->exchange,
+            $this->exchange ?? '',
             $this->topic
         );
     }

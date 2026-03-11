@@ -22,23 +22,24 @@ final class State implements StepStateInterface
     {
         $this->acceptMetric += $count;
 
-        $this->manager->trySend($this->stepCode);
+        $this->manager->trySend($count);
     }
 
     public function reject(int $count = 1): void
     {
         $this->rejectMetric += $count;
 
-        $this->manager->trySend($this->stepCode);
+        $this->manager->trySend($count);
     }
 
     public function error(int $count = 1): void
     {
         $this->errorMetric += $count;
 
-        $this->manager->trySend($this->stepCode);
+        $this->manager->trySend($count);
     }
 
+    /** @return array<string, mixed> */
     public function toArray(): array
     {
         return [

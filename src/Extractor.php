@@ -9,6 +9,9 @@ use Bunny\Client;
 use Kiboko\Component\Bucket\AcceptanceResultBucket;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 
+/**
+ * @implements ExtractorInterface<array<string, mixed>>
+ */
 final readonly class Extractor implements ExtractorInterface
 {
     private Channel $channel;
@@ -17,7 +20,11 @@ final readonly class Extractor implements ExtractorInterface
         private Client $connection,
         private string $topic,
     ) {
-        $this->channel = $this->connection->channel();
+        $channel = $this->connection->channel();
+        if (!$channel instanceof Channel) {
+            throw new \RuntimeException('Expected Channel from Bunny client');
+        }
+        $this->channel = $channel;
 
         $this->channel->queueDeclare(
             queue: $this->topic,
@@ -70,7 +77,7 @@ final readonly class Extractor implements ExtractorInterface
     {
         while (true) {
             $message = $this->channel->get($this->topic);
-            if (null === $message) {
+            if (!$message instanceof \Bunny\Message) {
                 break;
             }
             $this->channel->ack($message);
