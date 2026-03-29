@@ -16,7 +16,8 @@ final class State implements StepStateInterface
         private readonly StateManager $manager,
         private readonly string $stepCode,
         private readonly string $stepLabel,
-    ) {}
+    ) {
+    }
 
     public function accept(int $count = 1): void
     {
